@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js --preset-env"
+    "start": "nodemon --exec babel-node app.js --preset-env",
+    "migrate": "sequelize db:migrate",
+    "migrate:reset": "sequelize db:migrate:undo:all",
+    "migration": "npm run migrate:reset && npm run migrate"
   },
   "author": "",
   "license": "ISC",
@@ -15,8 +18,12 @@
     "@babel/preset-env": "^7.3.1"
   },
   "dependencies": {
+    "apollo-boost": "^0.1.28",
+    "apollo-server-express": "^2.4.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
     "pg-hstore": "^2.3.2",

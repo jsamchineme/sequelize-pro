@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import routes from './server/v1/routes';
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to Sequelize Pro'
   })
 });
+
+app.use('/api', routes);
 
 app.get('*', (req, res) => {
   res.send({

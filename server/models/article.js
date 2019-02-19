@@ -15,15 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    authorId: {
-      allowNull: false,
-      type: DataTypes.UUID,
-      references: {
-        model: 'User',
-        key: 'id',
-        as: 'authorId'
-      }
-    },
+    authorId: DataTypes.UUID,
     categoryId: {
       allowNull: false,
       type: DataTypes.INTEGER,

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js --preset-env",
+    "start": "nodemon --exec babel-node server.js --preset-env",
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all",
     "migration": "npm run migrate:reset && npm run migrate"
@@ -21,6 +21,7 @@
     "apollo-boost": "^0.1.28",
     "apollo-server-express": "^2.4.2",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",

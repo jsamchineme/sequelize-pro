@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     article(id: ID!): Article!
-    articles(id: ID!): [Article!]!
+    articles(scope: String): [Article!]!
   }
 
   type Article {
@@ -13,8 +13,10 @@ export default gql`
     slug: String
     description: String
     authorId: String
-    categoryId: Int
-    owner: User
+    categoryId: Int!
+    owner: User!
+    category: Category!
+    comments(scope: String): [Comment!]!
   }
 
   extend type Mutation {

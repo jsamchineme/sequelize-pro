@@ -21,15 +21,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
   }, {});
-  Article.associate = function(models) {
+  Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'authorId',
       as: 'owner'
-    }),
+    });
     Article.hasMany(models.Comment, {
       foreignKey: 'articleId',
       as: 'comments'
-    })
+    });
   };
   return Article;
 };

@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-express';
 
 import userSchema from './user';
 import articleSchema from './article';
+import commentSchema from './comment';
 import categorySchema from './category';
 
 const linkSchema = gql`
@@ -18,4 +19,4 @@ const linkSchema = gql`
   }
 `;
 
-export default [linkSchema, userSchema, articleSchema, categorySchema];
+export default [linkSchema, userSchema, articleSchema, commentSchema, categorySchema];

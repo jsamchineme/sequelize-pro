@@ -37,5 +37,5 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface) => queryInterface.dropTable('Comments')
+  down: queryInterface => queryInterface.dropTable('Comments')
 };

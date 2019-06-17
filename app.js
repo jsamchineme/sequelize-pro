@@ -12,17 +12,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.send({
+  return res.status(200).send({
     message: 'Welcome to Sequelize Pro'
-  })
+  });
 });
 
 app.use('/api', routes);
 
 app.get('*', (req, res) => {
-  res.send({
+  return res.status(200).send({
     error: 'Route not found'
-  })
+  });
 });
 
 const port = process.env.PORT || 8003;

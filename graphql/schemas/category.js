@@ -11,7 +11,7 @@ export default gql`
     name: String
     createdAt: String
     updatedAt: String
-    articles: [Article!]
+    articles(scope: String): [Article!]!
   }
 
   extend type Mutation {

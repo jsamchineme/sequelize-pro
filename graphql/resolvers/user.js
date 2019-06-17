@@ -1,15 +1,40 @@
+import queryLoader from '../queryLoaderConfig';
+
 export default {
   Query: {
-    user: (parent, { id }, { models: { User } }) => User.findByPk(id),
-    users: (parent, args, { models: { User } }, info) => {
-      const selections = info.fieldNodes[0].selectionSet.selections;
-      const selectedFields = selections.map(i => i.name.value);
-      return User.findAll({ attributes: selectedFields })
+    user: (parent, { id }, { models }, info) => {
+      const { User } = models;
+      // query options prepare attributes and associated model includes
+      const queryOptions = queryLoader.getQueryOptions(models, User, info);
+
+      const user = User.findByPk(id, queryOptions);
+      return user;
     },
-    me: (parent, args, { me }) => me
+    users: (parent, args, { models }, info) => {
+      const { User } = models;
+      // query options prepare attributes and associated model includes
+      const queryOptions = queryLoader.getQueryOptions(models, User, info);
+
+      const users = User.findAll(queryOptions);
+      return users;
+    },
+    me: (parent, args, { me, models }, info) => {
+      const { User } = models;
+
+      // query options prepare attributes and associated model includes
+      const queryOptions = queryLoader.getQueryOptions(models, User, info);
+
+      // logger.info(queryOptions);
+      const user = User.findByPk(me.id, queryOptions);
+      return user;
+    }
   },
   User: {
-    articles: (parent, args, { models }) => parent.getArticles(),
+    articles: async (parent) => {
+      const { articles } = parent;
+
+      return articles;
+    }
   },
   Mutation: {
     createUser: (parents, args, { models: { User } }) => {

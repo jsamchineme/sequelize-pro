@@ -15,9 +15,9 @@ export const createArticle = async (req, res) => {
     return res.status(400).send({
       status: 'error',
       error
-    })
+    });
   }
-}
+};
 
 export const getArticle = async (req, res) => {
   const { params: { articleId } } = req;
@@ -31,11 +31,11 @@ export const getArticle = async (req, res) => {
         message: 'Not Found'
       });
     }
-  
+
     const articleData = article.toJSON();
-    
+
     // add all relevant properties to the articleData
-  
+
     return res.status(200).send({
       data: articleData
     });
@@ -43,29 +43,28 @@ export const getArticle = async (req, res) => {
     return res.status(400).send({
       status: 'error',
       error
-    })
+    });
   }
-}
+};
 
 export const updateArticle = async (req, res) => {
   const { params: { articleId }, body } = req;
 
   try {
     const article = await Article.findByPk(articleId);
-  
     if (!article) {
       return res.status(404).send({
         status: 'fail',
         message: 'Not Found'
       });
     }
-  
+
     const updatedArticle = await article.update(body);
-  
+
     const articleData = updatedArticle.toJSON();
-    
+
     // add all relevant properties to the articleData
-  
+
     return res.status(200).send({
       data: articleData
     });
@@ -73,26 +72,26 @@ export const updateArticle = async (req, res) => {
     return res.status(400).send({
       status: 'error',
       error
-    })
+    });
   }
-}
+};
 
 export const deleteArticle = async (req, res) => {
   const { params: { articleId } } = req;
 
   try {
     const article = await Article.findByPk(articleId);
-  
-    if(!article) {
+
+    if (!article) {
       return res.status(404).send({
         status: 'fail',
         message: 'Not Found'
       });
     }
-  
+
     await article.destroy();
     // add all relevant properties to the articleData
-  
+
     return res.status(204).send({
       status: 'success'
     });
@@ -100,16 +99,16 @@ export const deleteArticle = async (req, res) => {
     return res.status(400).send({
       status: 'error',
       error
-    })
+    });
   }
-}
+};
 
 export const getAllArticles = async (req, res) => {
   try {
     const articles = await Article.findAll();
-    
+
     // add all relevant properties to the articleData
-  
+
     return res.status(200).send({
       status: 'success',
       data: articles
@@ -118,6 +117,6 @@ export const getAllArticles = async (req, res) => {
     return res.status(400).send({
       status: 'error',
       error
-    })
+    });
   }
-}
+};

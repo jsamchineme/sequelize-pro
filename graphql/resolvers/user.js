@@ -1,40 +1,11 @@
-import queryLoader from '../queryLoaderConfig';
-
 export default {
   Query: {
-    user: (parent, { id }, { models }, info) => {
-      const { User } = models;
-      // query options prepare attributes and associated model includes
-      const queryOptions = queryLoader.getQueryOptions(models, User, info);
-
-      const user = User.findByPk(id, queryOptions);
-      return user;
-    },
-    users: (parent, args, { models }, info) => {
-      const { User } = models;
-      // query options prepare attributes and associated model includes
-      const queryOptions = queryLoader.getQueryOptions(models, User, info);
-
-      const users = User.findAll(queryOptions);
-      return users;
-    },
-    me: (parent, args, { me, models }, info) => {
-      const { User } = models;
-
-      // query options prepare attributes and associated model includes
-      const queryOptions = queryLoader.getQueryOptions(models, User, info);
-
-      // logger.info(queryOptions);
-      const user = User.findByPk(me.id, queryOptions);
-      return user;
-    }
+    user: (parent, { id }, { models }) => models.User.findByPk(id),
+    users: (parent, args, { models }) => models.User.findAll(),
+    me: (parent, args, { me, models }) => models.User.findByPk(me.id),
   },
   User: {
-    articles: async (parent) => {
-      const { articles } = parent;
-
-      return articles;
-    }
+    articles: parent => parent.getArticles()
   },
   Mutation: {
     createUser: (parents, args, { models: { User } }) => {

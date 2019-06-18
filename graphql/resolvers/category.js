@@ -1,28 +1,16 @@
-import queryLoader from '../queryLoaderConfig';
-
 export default {
   Query: {
-    categories: async (parent, args, { models }, info) => {
-      const { Category } = models;
-      // query options prepare attributes and associated model includes
-      const queryOptions = queryLoader.getQueryOptions(models, Category, info);
-
-      const categories = await Category.findAll(queryOptions);
+    categories: async (parent, args, { models }) => {
+      const categories = await models.Category.findAll();
       return categories;
     },
-    category: async (parent, { id }, { models }, info) => {
-      const { Category } = models;
-      const queryOptions = queryLoader.getQueryOptions(models, Category, info);
-
-      const category = await Category.findByPk(id, queryOptions);
+    category: async (parent, { id }, { models }) => {
+      const category = await models.Category.findByPk(id);
       return category;
     }
   },
   Category: {
-    articles: async (parent) => {
-      const { articles } = parent;
-      return articles;
-    }
+    articles: parent => parent.getArticles()
   },
   Mutation: {
     createCategory: async (parent, args, { models: { Category } }) => {

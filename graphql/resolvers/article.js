@@ -1,47 +1,36 @@
-import {
-  getSelectedAttributes,
-  getSelectedIncludes 
-} from './resolveUtils';
+import queryLoader from '../queryLoaderConfig';
 
 export default {
   Query: {
     articles: async (parent, args, { models }, info) => {
-      let { Article } = models;
-      const selectedAttributes = getSelectedAttributes(Article, info);
-      const queryInclude = getSelectedIncludes(models, Article, info);
-     
-      let queryOptions = {
-        attributes: selectedAttributes
-      };
-
-      if(queryInclude) {
-        queryOptions.include = queryInclude;
-      }
+      const { Article } = models;
+      // query options prepare attributes and associated model includes
+      const queryOptions = queryLoader.getQueryOptions(models, Article, info);
 
       const articles = await Article.findAll(queryOptions);
       return articles;
     },
     article: async (parent, { id }, { models }, info) => {
-      let { Article } = models;
-      const selectedAttributes = getSelectedAttributes(Article, info);
-      const queryInclude = getSelectedIncludes(models, Article, info);
-     
-      let queryOptions = {
-        attributes: selectedAttributes
-      };
-
-      if(queryInclude) {
-        queryOptions.include = queryInclude;
-      }
+      const { Article } = models;
+      // query options prepare attributes and associated model includes
+      const queryOptions = queryLoader.getQueryOptions(models, Article, info);
 
       const article = await Article.findByPk(id, queryOptions);
       return article;
     },
   },
   Article: {
-    owner: async (parent, args, { models }, info) => {
-      const owner = parent.owner;
+    owner: (parent) => {
+      const { owner } = parent;
       return owner;
+    },
+    category: (parent) => {
+      const { category } = parent;
+      return category;
+    },
+    comments: (parent) => {
+      const { comments } = parent;
+      return comments;
     }
   },
   Mutation: {
@@ -49,17 +38,17 @@ export default {
       args.slug = args.title.replace(/\s+/g, '-').toLowerCase();
       args.authorId = me.id;
 
-      const newArticle = await Article.create(args)
+      const newArticle = await Article.create(args);
       return newArticle;
     },
     deleteArticle: async (parent, { id }, { models: { Article } }) => {
       const article = Article.findByPk(id);
-      if(!article) {
+      if (!article) {
         return false;
       }
 
       const result = await article.destroy();
-      if(!result) {
+      if (!result) {
         return false;
       }
 

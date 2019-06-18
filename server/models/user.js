@@ -21,23 +21,23 @@ module.exports = (sequelize, DataTypes) => {
       through: 'UserFollower',
       as: 'followers',
       timestamps: false
-    }),
+    });
     User.belongsToMany(models.User, {
       foreignKey: 'followerId',
       otherKey: 'userId',
       through: 'UserFollower',
       as: 'followings',
       timestamps: false
-    }),
+    });
     User.hasMany(models.Article, {
       foreignKey: 'authorId',
-      as: 'publications',
+      as: 'articles',
       onDelete: 'CASCADE'
-    })
+    });
   };
 
-  User.findByLogin = async login => {
-    let user = await User.findOne({
+  User.findByLogin = async (login) => {
+    const user = await User.findOne({
       where: { username: login },
     });
 

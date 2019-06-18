@@ -13,7 +13,7 @@ export default gql`
     firstname: String
     lastname: String
     username: String!
-    articles: [Article!]
+    articles(id: ID, scope: String): [Article!]!
   }
 
   extend type Mutation {
@@ -23,4 +23,4 @@ export default gql`
       username: String
     ): User!
   }
-`
+`;

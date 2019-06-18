@@ -1,14 +1,16 @@
-import express from "express";
-import { ApolloServer, gql } from "apollo-server-express";
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
-import schema from "./graphql/schemas";
-import resolvers from "./graphql/resolvers";
-import models, { sequelize } from './server/models';
+import schema from './graphql/schemas';
+import resolvers from './graphql/resolvers';
+import models from './server/models';
 
 
 const app = express();
 
 app.use(cors());
+
+app.use(express.urlencoded({ extended: true }));
 
 const start = async () => {
   const server = new ApolloServer({
@@ -16,21 +18,16 @@ const start = async () => {
     resolvers,
     context: {
       models,
-      me: await models.User.findByLogin('samcotech'),
+      me: await models.User.findByLogin('johnnysam'),
     }
   });
-  
+
   server.applyMiddleware({ app, path: '/graphql' });
-  
-  // sequelize.sync().then(async () => {
-  //   app.listen({ port: 8000 }, () => {
-  //     console.log(`🚀 Apollo Server on http://localhost:8000${server.graphqlPath}`);
-  //   });
-  // });
-  
-  app.listen({ port: 8000 }, () => {
-    console.log(`🚀 Apollo Server on http://localhost:8000${server.graphqlPath}`);
+
+  const port = 8001;
+  app.listen({ port }, () => {
+    console.log(`🚀 Apollo Server on http://localhost:${port}${server.graphqlPath}`);
   });
-}
+};
 
 start();
